@@ -7,7 +7,7 @@
     <title>私の初めてのウェブサイト</title>
 </head>
 <body>
-    <h1>GitHub Pagesへようこそ！</h1>
+    <h1>うわーうわー</h1>
     <p>これは私の最初のウェブサイトです。</p>
 </body>
 </html>
