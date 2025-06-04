@@ -84,6 +84,20 @@ header p {
     font-weight: bold;
 }
 
+/* サイドバー内のカレンダー部分 */
+.sidebar-calendar {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+.sidebar-calendar h3 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+
 /* コンテンツエリア */
 .content-area {
     flex-grow: 1; /* 残りのスペースを全て使う */
@@ -113,10 +127,10 @@ h2 {
     font-size: 1.8em;
 }
 
-h3 {
+h4 { /* カレンダーの月表示用 */
     color: #34495e;
-    font-size: 1.4em;
-    margin-bottom: 15px;
+    font-size: 1.2em;
+    margin: 0;
 }
 
 p {
@@ -147,24 +161,19 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 10px 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #eee;
-}
-
-.calendar-nav h3 {
-    margin: 0;
-    font-size: 1.5em;
 }
 
 .calendar-nav button {
     background-color: #3498db;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 5px 10px; /* 少し小さめに */
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
     transition: background-color 0.3s ease;
 }
 
@@ -175,16 +184,17 @@ a:hover {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr); /* 7列 */
-    gap: 5px;
+    gap: 3px; /* 少し小さめに */
     text-align: center;
+    font-size: 0.9em; /* 少し小さめに */
 }
 
 .calendar-grid div {
-    padding: 10px 5px;
+    padding: 8px 3px; /* 少し小さめに */
     background-color: #ecf0f1;
-    border-radius: 5px;
+    border-radius: 3px; /* 角を少し小さめに */
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border 0.2s ease;
     font-weight: bold;
 }
 
@@ -219,22 +229,35 @@ a:hover {
     background-color: #2980b9;
 }
 
+.calendar-grid .today { /* 今日の日付のスタイル */
+    border: 2px solid #3498db; /* 青い枠線 */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* 軽い影 */
+}
+.calendar-grid .today.selected-day {
+    background-color: #2980b9; /* 今日が選択された場合 */
+    border: 2px solid #2980b9;
+}
+
+
 .diary-display {
-    margin-top: 30px;
-    padding-top: 20px;
+    margin-top: 20px;
+    padding-top: 15px;
     border-top: 1px solid #eee;
-    min-height: 100px; /* 少なくともこの高さは確保 */
+    min-height: 80px; /* 少なくともこの高さは確保 */
 }
 .diary-display h3 {
     color: #2c3e50;
+    font-size: 1.2em; /* サイドバー内なので少し小さめに */
 }
 .diary-display p {
+    font-size: 0.9em; /* サイドバー内なので少し小さめに */
     white-space: pre-wrap; /* 改行を保持 */
 }
 .no-diary-message {
     color: #666;
     text-align: center;
     font-style: italic;
+    font-size: 0.85em;
 }
 
 
@@ -328,5 +351,10 @@ footer {
 
     header h1 {
         font-size: 2em;
+    }
+
+    .sidebar-calendar {
+        margin-top: 20px;
+        padding-top: 15px;
     }
 }
