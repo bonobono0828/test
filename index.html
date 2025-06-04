@@ -18,20 +18,31 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="#" data-section="about">自己紹介</a></li>
+                    <li><a href="#" data-section="about" class="active-link">自己紹介</a></li>
                     <li><a href="#" data-section="hobbies">私の趣味</a></li>
                     <li><a href="#" data-section="links">お役立ちリンク</a></li>
-                    <li><a href="#" data-section="diary-calendar">日記カレンダー</a></li>
                     <li><a href="#" data-section="diary-entry">日記を書く</a></li>
                 </ul>
             </nav>
+
+            <div class="sidebar-calendar">
+                <h3>日付で日記を探す</h3>
+                <div class="calendar-nav">
+                    <button id="prevMonth">前の月</button>
+                    <h4 id="currentMonthYear"></h4>
+                    <button id="nextMonth">次の月</button>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div id="sidebar-diary-display" class="diary-display">
+                    </div>
+            </div>
         </aside>
 
         <main class="content-area">
             <section id="about" class="page-section active">
                 <h2>自己紹介</h2>
                 <div class="section-content">
-                    <p>こんにちは！私の名前は[ぼんのー]です。このサイトでは、私の日々の出来事や、趣味について紹介しています。普段は[youtubeの動画編集やAIにプログラムを作らせたり]しています。</p>
+                    <p>こんにちは！私の名前はぼんのーです。このサイトでは、私の日々の出来事や、趣味について紹介しています。普段はYouTubeの動画編集やAIにプログラムを作らせたりしています。</p>
                     <p>私は[あなたの好きなことや得意なこと、情熱を傾けていること]が大好きです。特に[具体的な趣味や活動]に時間を費やしています。</p>
                     <p>どうぞ、ゆっくりとご覧ください。</p>
                 </div>
@@ -45,7 +56,7 @@
                         <li><strong>[趣味2]</strong>：[趣味2についての簡単な説明。例：料理。週末は新しいレシピに挑戦しています。]</li>
                         <li><strong>[趣味3]</strong>：[趣味3についての簡単な説明。例：写真。自然の風景を撮るのが好きです。]</li>
                     </ul>
-                    </div>
+                </div>
             </section>
 
             <section id="links" class="page-section">
@@ -55,21 +66,7 @@
                         <li><a href="https://example.com" target="_blank">お気に入りのサイト1</a> - [サイトの簡単な説明]</li>
                         <li><a href="https://example.org" target="_blank">役立つ情報サイト2</a> - [サイトの簡単な説明]</li>
                         <li><a href="https://github.com/your-username" target="_blank">私のGitHubプロフィール</a> - [あなたのGitHubのリンク]</li>
-                        </ul>
-                </div>
-            </section>
-
-            <section id="diary-calendar" class="page-section">
-                <h2>日記カレンダー</h2>
-                <div class="section-content">
-                    <div class="calendar-nav">
-                        <button id="prevMonth">前の月</button>
-                        <h3 id="currentMonthYear"></h3>
-                        <button id="nextMonth">次の月</button>
-                    </div>
-                    <div id="calendar-grid" class="calendar-grid"></div>
-                    <div id="diary-display" class="diary-display">
-                        </div>
+                    </ul>
                 </div>
             </section>
 
@@ -93,7 +90,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 [あなたの名前]. All rights reserved.</p>
+            <p>&copy; 2025 bono. All rights reserved.</p>
         </div>
     </footer>
 
