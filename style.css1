@@ -1,0 +1,492 @@
+/* 基本のリセットとフォント */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6; /* 薄い背景色 */
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ヘッダー */
+header {
+    background-color: #2c3e50; /* ダークブルー */
+    color: #ecf0f1; /* 明るいテキスト */
+    padding: 1.5rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+header p {
+    margin-top: 5px;
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* 新しい検索バーのコンテナ */
+.search-bar-container {
+    background-color: #e0e0e0; /* 細い灰色のバー */
+    padding: 10px 0; /* 細さを調整 */
+    border-bottom: 1px solid #ccc;
+    text-align: right; /* 中身を右寄せ */
+}
+
+.search-bar-container .container {
+    display: flex; /* Flexboxを使って要素を配置 */
+    justify-content: flex-end; /* 右寄せ */
+    align-items: center; /* 垂直方向中央揃え */
+    gap: 10px; /* 検索バーとボタンの間隔 */
+}
+
+#diary-search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px; /* 幅を調整 */
+    font-size: 0.95em;
+}
+
+#diary-search-button {
+    background-color: #5cb85c; /* 緑系の検索ボタン */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+}
+
+#diary-search-button:hover {
+    background-color: #4cae4c;
+}
+
+
+/* メインコンテンツエリア (サイドバーとメイン) */
+.main-content {
+    display: flex;
+    padding: 30px 0;
+    gap: 30px; /* サイドバーとコンテンツの間の隙間 */
+}
+
+/* サイドバー */
+.sidebar {
+    flex: 0 0 250px; /* 固定幅 */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    height: fit-content; /* コンテンツに合わせて高さを調整 */
+    position: sticky; /* スクロールしても固定 */
+    top: 20px; /* 上からの位置 */
+    display: flex; /* カレンダーとナビゲーションを縦に並べる */
+    flex-direction: column;
+    gap: 20px; /* カレンダー、ナビ、日記一覧の間の隙間 */
+}
+
+/* サイドバー内のカレンダー部分 */
+.sidebar-calendar {
+    /* サイドバーの一番上なのでmargin-topは不要 */
+    padding-bottom: 20px; /* 下に少し余白 */
+    border-bottom: 1px solid #eee; /* 下に境界線 */
+}
+.sidebar-calendar h3 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+/* サイドバーナビゲーション */
+.sidebar nav {
+    /* カレンダーと日記一覧の間にあるので、上下の余白を調整 */
+    padding: 0;
+}
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+    display: block;
+    padding: 10px 15px;
+    background-color: #ecf0f1; /* 薄いグレーの背景 */
+    color: #2c3e50;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #34495e; /* ホバーで濃い色 */
+    color: #ffffff;
+}
+
+.sidebar nav ul li a.active-link {
+    background-color: #3498db; /* アクティブなリンクの色 */
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* コンテンツエリア */
+.content-area {
+    flex-grow: 1; /* 残りのスペースを全て使う */
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.page-section {
+    display: none; /* デフォルトでは非表示 */
+}
+
+.page-section.active {
+    display: block; /* アクティブなセクションのみ表示 */
+}
+
+.section-content {
+    margin-top: 20px;
+}
+
+h2 {
+    color: #34495e;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+h4 { /* カレンダーの月表示用、日記タイトル用 */
+    color: #34495e;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+ul li {
+    margin-bottom: 8px;
+}
+
+a {
+    color: #3498db; /* リンク色 */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 日記カレンダー */
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.calendar-nav button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* 少し小さめに */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-nav button:hover {
+    background-color: #2980b9;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7列 */
+    gap: 3px; /* 少し小さめに */
+    text-align: center;
+    font-size: 0.9em; /* 少し小さめに */
+}
+
+.calendar-grid div {
+    padding: 8px 3px; /* 少し小さめに */
+    background-color: #ecf0f1;
+    border-radius: 3px; /* 角を少し小さめに */
+    cursor: pointer;
+    transition: background-color 0.2s ease, border 0.2s ease;
+    font-weight: bold;
+}
+
+.calendar-grid div:hover {
+    background-color: #dbe4e8;
+}
+
+.calendar-grid .day-name {
+    background-color: #bdc3c7;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.calendar-grid .empty {
+    background-color: #f8f8f8;
+    cursor: default;
+}
+
+.calendar-grid .has-diary {
+    background-color: #a2d9ce; /* 日記がある日の色 */
+    color: #2c3e50;
+}
+.calendar-grid .has-diary:hover {
+    background-color: #82c7bb;
+}
+
+.calendar-grid .selected-day {
+    background-color: #3498db; /* 選択された日の色 */
+    color: white;
+}
+.calendar-grid .selected-day:hover {
+    background-color: #2980b9;
+}
+
+.calendar-grid .today { /* 今日の日付のスタイル */
+    border: 2px solid #3498db; /* 青い枠線 */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* 軽い影 */
+}
+.calendar-grid .today.selected-day {
+    background-color: #2980b9; /* 今日が選択された場合 */
+    border: 2px solid #2980b9;
+}
+
+
+.diary-display {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    min-height: 80px; /* 少なくともこの高さは確保 */
+}
+.diary-display h4 { /* サイドバーの日記タイトル */
+    color: #2c3e50;
+    font-size: 1.1em; /* サイドバー内なので少し小さめに */
+    margin-bottom: 5px;
+}
+.diary-display p {
+    font-size: 0.85em; /* サイドバー内なので少し小さめに */
+    white-space: pre-wrap; /* 改行を保持 */
+}
+.no-diary-message {
+    color: #666;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.85em;
+}
+
+
+/* 日記入力フォーム */
+.diary-input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.diary-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* パディングとボーダーを幅に含める */
+}
+
+textarea.diary-input {
+    resize: vertical; /* 縦方向のみリサイズ可能 */
+}
+
+.button {
+    background-color: #27ae60; /* 緑系のボタン */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    align-self: flex-start; /* 左寄せ */
+}
+
+.button:hover {
+    background-color: #229a54;
+}
+
+.save-message {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #27ae60; /* 保存成功メッセージの色 */
+    text-align: center;
+}
+
+/* 日記一覧（サイドバー） */
+.sidebar-diary-list {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+.sidebar-diary-list h3 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+.sidebar-diary-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-diary-list ul li {
+    margin-bottom: 8px;
+}
+.sidebar-diary-list ul li a {
+    display: block;
+    padding: 8px 10px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 0.95em;
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    overflow: hidden; /* はみ出した部分を隠す */
+    text-overflow: ellipsis; /* はみ出した部分を...で表示 */
+}
+.sidebar-diary-list ul li a:hover {
+    background-color: #dbe4e8;
+}
+
+/* メインコンテンツの日記詳細表示 */
+#single-diary-view h2 {
+    font-size: 2.2em;
+}
+#single-diary-view p {
+    font-size: 1.1em;
+    color: #555;
+}
+#single-diary-view div {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    white-space: pre-wrap; /* 改行を保持 */
+    margin-top: 20px;
+    line-height: 1.8;
+}
+#back-to-top-btn {
+    margin-top: 30px;
+    background-color: #3498db; /* 青系のボタン */
+}
+#back-to-top-btn:hover {
+    background-color: #2980b9;
+}
+
+
+/* フッター */
+footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 50px;
+    font-size: 0.9em;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    /* 検索バーの調整 */
+    .search-bar-container .container {
+        flex-direction: column; /* 縦並びにする */
+        align-items: center;
+        gap: 8px;
+    }
+    #diary-search-input {
+        width: 80%; /* 幅を広げる */
+        max-width: 300px;
+    }
+    #diary-search-button {
+        width: 50%;
+        max-width: 150px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .sidebar {
+        flex: auto;
+        width: auto;
+        position: static; /* 固定を解除 */
+        margin-bottom: 20px;
+        gap: 15px; /* 要素間の隙間を調整 */
+    }
+
+    .sidebar nav ul {
+        display: flex; /* 横並びにする */
+        flex-wrap: wrap; /* 折り返す */
+        justify-content: center; /* 中央寄せ */
+        gap: 10px;
+    }
+
+    .sidebar nav ul li {
+        margin-bottom: 0;
+    }
+
+    .sidebar nav ul li a {
+        padding: 8px 12px;
+    }
+
+    .content-area {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    /* サイドバー内の要素の調整 */
+    .sidebar-calendar, .sidebar-diary-list, .sidebar nav {
+        margin-top: 0; /* レスポンシブで余分なマージンを削除 */
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+    .sidebar-calendar:first-child { /* サイドバーの一番上のカレンダーは上マージンなし */
+        padding-top: 0;
+        border-top: none;
+    }
+}
