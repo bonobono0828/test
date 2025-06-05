@@ -34,6 +34,45 @@ header p {
     opacity: 0.9;
 }
 
+/* 新しい検索バーのコンテナ */
+.search-bar-container {
+    background-color: #e0e0e0; /* 細い灰色のバー */
+    padding: 10px 0; /* 細さを調整 */
+    border-bottom: 1px solid #ccc;
+    text-align: right; /* 中身を右寄せ */
+}
+
+.search-bar-container .container {
+    display: flex; /* Flexboxを使って要素を配置 */
+    justify-content: flex-end; /* 右寄せ */
+    align-items: center; /* 垂直方向中央揃え */
+    gap: 10px; /* 検索バーとボタンの間隔 */
+}
+
+#diary-search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px; /* 幅を調整 */
+    font-size: 0.95em;
+}
+
+#diary-search-button {
+    background-color: #5cb85c; /* 緑系の検索ボタン */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+}
+
+#diary-search-button:hover {
+    background-color: #4cae4c;
+}
+
+
 /* メインコンテンツエリア (サイドバーとメイン) */
 .main-content {
     display: flex;
@@ -388,6 +427,21 @@ footer {
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
+    /* 検索バーの調整 */
+    .search-bar-container .container {
+        flex-direction: column; /* 縦並びにする */
+        align-items: center;
+        gap: 8px;
+    }
+    #diary-search-input {
+        width: 80%; /* 幅を広げる */
+        max-width: 300px;
+    }
+    #diary-search-button {
+        width: 50%;
+        max-width: 150px;
+    }
+
     .main-content {
         flex-direction: column;
         padding: 20px;
@@ -425,7 +479,8 @@ footer {
         font-size: 2em;
     }
 
-    .sidebar-calendar, .sidebar-diary-list {
+    /* サイドバー内の要素の調整 */
+    .sidebar-calendar, .sidebar-diary-list, .sidebar nav {
         margin-top: 0; /* レスポンシブで余分なマージンを削除 */
         padding-top: 15px;
         border-top: 1px solid #eee;
