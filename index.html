@@ -16,6 +16,18 @@
 
     <div class="container main-content">
         <aside class="sidebar">
+            <div class="sidebar-calendar">
+                <h3>日付で日記を探す</h3>
+                <div class="calendar-nav">
+                    <button id="prevMonth">前の月</button>
+                    <h4 id="currentMonthYear"></h4>
+                    <button id="nextMonth">次の月</button>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div id="calendar-selected-diary-display" class="diary-display">
+                    </div>
+            </div>
+
             <nav>
                 <ul>
                     <li><a href="#" data-section="about" class="active-link">自己紹介</a></li>
@@ -25,16 +37,11 @@
                 </ul>
             </nav>
 
-            <div class="sidebar-calendar">
-                <h3>日付で日記を探す</h3>
-                <div class="calendar-nav">
-                    <button id="prevMonth">前の月</button>
-                    <h4 id="currentMonthYear"></h4>
-                    <button id="nextMonth">次の月</button>
-                </div>
-                <div id="calendar-grid" class="calendar-grid"></div>
-                <div id="sidebar-diary-display" class="diary-display">
-                    </div>
+            <div class="sidebar-diary-list">
+                <h3>過去の日記一覧</h3>
+                <ul id="diary-titles-list">
+                    <p class="no-diary-message">まだ日記はありません。</p>
+                </ul>
             </div>
         </aside>
 
@@ -43,7 +50,7 @@
                 <h2>自己紹介</h2>
                 <div class="section-content">
                     <p>こんにちは！私の名前はぼんのーです。このサイトでは、私の日々の出来事や、趣味について紹介しています。普段はYouTubeの動画編集やAIにプログラムを作らせたりしています。</p>
-                    <p>私はアニメやゲームが大好きです。　</p>
+                    <p>私は[あなたの好きなことや得意なこと、情熱を傾けていること]が大好きです。特に[具体的な趣味や活動]に時間を費やしています。</p>
                     <p>どうぞ、ゆっくりとご覧ください。</p>
                 </div>
             </section>
@@ -52,9 +59,9 @@
                 <h2>私の趣味</h2>
                 <div class="section-content">
                     <ul>
-                        <li><strong>[趣味1]</strong>：アニメ</li>
-                        <li><strong>[趣味2]</strong>：ゲーム</li>
-                        <li><strong>[趣味3]</strong>：漫画</li>
+                        <li><strong>[趣味1]</strong>：[趣味1についての簡単な説明。例：読書。最近はSF小説にハマっています。]</li>
+                        <li><strong>[趣味2]</strong>：[趣味2についての簡単な説明。例：料理。週末は新しいレシピに挑戦しています。]</li>
+                        <li><strong>[趣味3]</strong>：[趣味3についての簡単な説明。例：写真。自然の風景を撮るのが好きです。]</li>
                     </ul>
                 </div>
             </section>
@@ -84,6 +91,13 @@
                     </div>
                     <p id="save-message" class="save-message"></p>
                 </div>
+            </section>
+
+            <section id="single-diary-view" class="page-section">
+                <h2 id="single-diary-title"></h2>
+                <p id="single-diary-date"></p>
+                <div id="single-diary-content"></div>
+                <button id="back-to-top-btn" class="button">トップに戻る</button>
             </section>
         </main>
     </div>
