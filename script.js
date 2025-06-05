@@ -53,6 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 日記一覧表示エリア
     const diaryTitlesList = document.getElementById('diary-titles-list');
 
+    // === 検索機能関連要素 ===
+    const diarySearchInput = document.getElementById('diary-search-input');
+    const diarySearchButton = document.getElementById('diary-search-button');
+    const diaryTitlesDatalist = document.getElementById('diary-titles-datalist'); // datalist要素
+
 
     // 保存ボタンクリック時の処理
     saveDiaryBtn.addEventListener('click', () => {
@@ -89,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
         displayDiaryInCalendarSidebar(date);
         // 日記一覧も更新
         renderDiaryTitlesList();
+        // 予測変換データリストも更新
+        updateDatalistOptions();
     });
 
     // 日付入力欄で日付が選択されたら、その日の日記を読み込む
@@ -234,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // === 日記タイトル一覧表示機能 ===
+    // === 日記タイトル一覧表示機能 & 検索フィルタリング ===
     function renderDiaryTitlesList(searchTerm = '') { // 検索キーワードを引数に追加
         diaryTitlesList.innerHTML = ''; // 一覧をクリア
 
@@ -294,20 +301,50 @@ document.addEventListener('DOMContentLoaded', () => {
         showSection('about'); // 自己紹介セクションに戻る
     });
 
-    // === 検索機能 ===
-    const diarySearchInput = document.getElementById('diary-search-input');
-    const diarySearchButton = document.getElementById('diary-search-button');
+    // === 検索機能（予測変換と実行） ===
 
+    // datalistのオプションを更新する関数
+    function updateDatalistOptions() {
+        diaryTitlesDatalist.innerHTML = ''; // datalistをクリア
+        // 日付を降順（新しい順）にソート
+        const sortedDates = Object.keys(diaries).sort((a, b) => new Date(b) - new Date(a));
+
+        sortedDates.forEach(date => {
+            const diary = diaries[date];
+            const option = document.createElement('option');
+            option.value = diary.title; // タイトルを予測変換候補にする
+            option.dataset.date = date; // 日付もデータ属性に持たせる（後で使うかも）
+            diaryTitlesDatalist.appendChild(option);
+        });
+    }
+
+    // 検索ボタンクリック時の処理
     diarySearchButton.addEventListener('click', () => {
         const searchTerm = diarySearchInput.value;
-        renderDiaryTitlesList(searchTerm); // 検索キーワードを渡して日記一覧を再描画
+        renderDiaryTitlesList(searchTerm); // 検索キーワードを渡してサイドバーの日記一覧を再描画
+        // もし予測変換で選択されたタイトルと完全に一致する日記があれば、直接表示
+        const matchingDate = Object.keys(diaries).find(date => diaries[date].title === searchTerm);
+        if (matchingDate) {
+            displaySingleDiary(matchingDate);
+            showSection('single-diary-view');
+        } else {
+             // 検索結果がない、または完全に一致しない場合は、一旦aboutセクションに戻すか、検索結果画面をデフォルトにする
+             // ここでは、検索結果がサイドバーに表示されるので、メインコンテンツは変更しないでおきます。
+             // 必要であれば showSection('about'); などを追加してください。
+        }
     });
 
     // Enterキーでも検索できるようにする
     diarySearchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const searchTerm = diarySearchInput.value;
-            renderDiaryTitlesList(searchTerm);
+            renderDiaryTitlesList(searchTerm); // 検索キーワードを渡してサイドバーの日記一覧を再描画
+            // 予測変換で選択されたタイトルと完全に一致する日記があれば、直接表示
+            const matchingDate = Object.keys(diaries).find(date => diaries[date].title === searchTerm);
+            if (matchingDate) {
+                displaySingleDiary(matchingDate);
+                showSection('single-diary-view');
+            }
         }
     });
 
@@ -320,4 +357,5 @@ document.addEventListener('DOMContentLoaded', () => {
     displayDiaryInCalendarSidebar(todayFormatted);
 
     renderDiaryTitlesList(); // 日記タイトル一覧の初期表示 (検索なし)
+    updateDatalistOptions(); // 予測変換データリストの初期生成
 });
