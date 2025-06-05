@@ -51,8 +51,29 @@ header p {
     height: fit-content; /* コンテンツに合わせて高さを調整 */
     position: sticky; /* スクロールしても固定 */
     top: 20px; /* 上からの位置 */
+    display: flex; /* カレンダーとナビゲーションを縦に並べる */
+    flex-direction: column;
+    gap: 20px; /* カレンダー、ナビ、日記一覧の間の隙間 */
 }
 
+/* サイドバー内のカレンダー部分 */
+.sidebar-calendar {
+    /* サイドバーの一番上なのでmargin-topは不要 */
+    padding-bottom: 20px; /* 下に少し余白 */
+    border-bottom: 1px solid #eee; /* 下に境界線 */
+}
+.sidebar-calendar h3 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+/* サイドバーナビゲーション */
+.sidebar nav {
+    /* カレンダーと日記一覧の間にあるので、上下の余白を調整 */
+    padding: 0;
+}
 .sidebar nav ul {
     list-style: none;
     padding: 0;
@@ -84,20 +105,6 @@ header p {
     font-weight: bold;
 }
 
-/* サイドバー内のカレンダー部分 */
-.sidebar-calendar {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-.sidebar-calendar h3 {
-    margin-top: 0;
-    color: #34495e;
-    font-size: 1.4em;
-    margin-bottom: 15px;
-}
-
-
 /* コンテンツエリア */
 .content-area {
     flex-grow: 1; /* 残りのスペースを全て使う */
@@ -127,7 +134,7 @@ h2 {
     font-size: 1.8em;
 }
 
-h4 { /* カレンダーの月表示用 */
+h4 { /* カレンダーの月表示用、日記タイトル用 */
     color: #34495e;
     font-size: 1.2em;
     margin: 0;
@@ -245,12 +252,13 @@ a:hover {
     border-top: 1px solid #eee;
     min-height: 80px; /* 少なくともこの高さは確保 */
 }
-.diary-display h3 {
+.diary-display h4 { /* サイドバーの日記タイトル */
     color: #2c3e50;
-    font-size: 1.2em; /* サイドバー内なので少し小さめに */
+    font-size: 1.1em; /* サイドバー内なので少し小さめに */
+    margin-bottom: 5px;
 }
 .diary-display p {
-    font-size: 0.9em; /* サイドバー内なので少し小さめに */
+    font-size: 0.85em; /* サイドバー内なので少し小さめに */
     white-space: pre-wrap; /* 改行を保持 */
 }
 .no-diary-message {
@@ -305,6 +313,69 @@ textarea.diary-input {
     text-align: center;
 }
 
+/* 日記一覧（サイドバー） */
+.sidebar-diary-list {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+.sidebar-diary-list h3 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+.sidebar-diary-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-diary-list ul li {
+    margin-bottom: 8px;
+}
+.sidebar-diary-list ul li a {
+    display: block;
+    padding: 8px 10px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 0.95em;
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    overflow: hidden; /* はみ出した部分を隠す */
+    text-overflow: ellipsis; /* はみ出した部分を...で表示 */
+}
+.sidebar-diary-list ul li a:hover {
+    background-color: #dbe4e8;
+}
+
+/* メインコンテンツの日記詳細表示 */
+#single-diary-view h2 {
+    font-size: 2.2em;
+}
+#single-diary-view p {
+    font-size: 1.1em;
+    color: #555;
+}
+#single-diary-view div {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    white-space: pre-wrap; /* 改行を保持 */
+    margin-top: 20px;
+    line-height: 1.8;
+}
+#back-to-top-btn {
+    margin-top: 30px;
+    background-color: #3498db; /* 青系のボタン */
+}
+#back-to-top-btn:hover {
+    background-color: #2980b9;
+}
+
+
 /* フッター */
 footer {
     background-color: #2c3e50;
@@ -328,6 +399,7 @@ footer {
         width: auto;
         position: static; /* 固定を解除 */
         margin-bottom: 20px;
+        gap: 15px; /* 要素間の隙間を調整 */
     }
 
     .sidebar nav ul {
@@ -353,8 +425,13 @@ footer {
         font-size: 2em;
     }
 
-    .sidebar-calendar {
-        margin-top: 20px;
+    .sidebar-calendar, .sidebar-diary-list {
+        margin-top: 0; /* レスポンシブで余分なマージンを削除 */
         padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+    .sidebar-calendar:first-child { /* サイドバーの一番上のカレンダーは上マージンなし */
+        padding-top: 0;
+        border-top: none;
     }
 }
