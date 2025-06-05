@@ -39,7 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const diaryContentInput = document.getElementById('diary-content');
     const saveDiaryBtn = document.getElementById('save-diary');
     const saveMessage = document.getElementById('save-message');
-    const sidebarDiaryDisplay = document.getElementById('sidebar-diary-display'); // サイドバーの日記表示エリア
+
+    // サイドバーの日記表示エリア（カレンダー選択時）
+    const calendarSelectedDiaryDisplay = document.getElementById('calendar-selected-diary-display');
+
+    // メインコンテンツの日記詳細表示エリア
+    const singleDiaryView = document.getElementById('single-diary-view');
+    const singleDiaryTitle = document.getElementById('single-diary-title');
+    const singleDiaryDate = document.getElementById('single-diary-date');
+    const singleDiaryContent = document.getElementById('single-diary-content');
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+
+    // 日記一覧表示エリア
+    const diaryTitlesList = document.getElementById('diary-titles-list');
+
 
     // 保存ボタンクリック時の処理
     saveDiaryBtn.addEventListener('click', () => {
@@ -72,8 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 保存したらカレンダーを再描画して、日記が追加されたことを反映
         renderCalendar(currentMonth, currentYear);
-        // 保存した日の日記をサイドバーに表示
-        displayDiaryInSidebar(date);
+        // 保存した日の日記をサイドバーに表示（カレンダー下）
+        displayDiaryInCalendarSidebar(date);
+        // 日記一覧も更新
+        renderDiaryTitlesList();
     });
 
     // 日付入力欄で日付が選択されたら、その日の日記を読み込む
@@ -99,12 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
     const today = new Date(); // 今日の日付
+    // 今日の日付をYYYY-MM-DD 形式でフォーマット
     const todayFormatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
 
     function renderCalendar(month, year) {
         calendarGrid.innerHTML = ''; // カレンダーをクリア
-        sidebarDiaryDisplay.innerHTML = '<p class="no-diary-message">日付を選択すると、日記が表示されます。</p>'; // 日記表示エリアをクリア
+        calendarSelectedDiaryDisplay.innerHTML = '<p class="no-diary-message">日付を選択すると、日記が表示されます。</p>'; // 日記表示エリアをクリア
 
         const firstDayOfMonth = new Date(year, month, 1).getDay(); // その月の1日の曜日 (0=日, 1=月...)
         const daysInMonth = new Date(year, month + 1, 0).getDate(); // その月の日数
@@ -151,25 +167,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 dayDiv.classList.add('selected-day'); // 選択された日付にスタイルを適用
 
-                displayDiaryInSidebar(fullDate);
+                displayDiaryInCalendarSidebar(fullDate);
             });
             calendarGrid.appendChild(dayDiv);
         }
     }
 
-    function displayDiaryInSidebar(date) {
-        sidebarDiaryDisplay.innerHTML = '';
+    function displayDiaryInCalendarSidebar(date) {
+        calendarSelectedDiaryDisplay.innerHTML = '';
         if (diaries[date]) {
             const diaryEntry = diaries[date];
-            const titleElement = document.createElement('h4'); // h4に変更
+            const titleElement = document.createElement('h4');
             titleElement.textContent = `タイトル：${diaryEntry.title}`;
             const contentElement = document.createElement('p');
             contentElement.textContent = diaryEntry.content; // textareaの改行をpタグで表示
 
-            sidebarDiaryDisplay.appendChild(titleElement);
-            sidebarDiaryDisplay.appendChild(contentElement);
+            calendarSelectedDiaryDisplay.appendChild(titleElement);
+            calendarSelectedDiaryDisplay.appendChild(contentElement);
         } else {
-            sidebarDiaryDisplay.innerHTML = `<p class="no-diary-message">${date}の日記はありません。</p>`;
+            calendarSelectedDiaryDisplay.innerHTML = `<p class="no-diary-message">${date}の日記はありません。</p>`;
         }
     }
 
@@ -181,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentYear--;
         }
         renderCalendar(currentMonth, currentYear);
+        // 月を変更した際にも、その月の今日の日付がハイライトされるように
+        highlightTodayInCalendar();
     });
 
     nextMonthBtn.addEventListener('click', () => {
@@ -190,16 +208,80 @@ document.addEventListener('DOMContentLoaded', () => {
             currentYear++;
         }
         renderCalendar(currentMonth, currentYear);
+        // 月を変更した際にも、その月の今日の日付がハイライトされるように
+        highlightTodayInCalendar();
     });
 
-    // 初期カレンダー表示と今日の表示
-    renderCalendar(currentMonth, currentYear);
-    // ページロード時に今日の日記をサイドバーに表示（もしあれば）
-    displayDiaryInSidebar(todayFormatted);
-
-    // 最初に今日のブログが青で囲まれるように、該当する日にselected-dayクラスも追加
-    const todayElement = document.querySelector(`.calendar-grid div[data-date="${todayFormatted}"]`);
-    if (todayElement) {
-        todayElement.classList.add('selected-day');
+    // カレンダーの今日の日付をハイライトする関数
+    function highlightTodayInCalendar() {
+        const todayElement = document.querySelector(`.calendar-grid div[data-date="${todayFormatted}"]`);
+        if (todayElement) {
+            todayElement.classList.add('today');
+            // ページロード時に今日の日記をサイドバーに表示したいので、初回のみ選択状態にする
+            if (!document.querySelector('.calendar-grid .selected-day')) {
+                todayElement.classList.add('selected-day');
+                displayDiaryInCalendarSidebar(todayFormatted);
+            }
+        }
     }
+
+    // === 日記タイトル一覧表示機能 ===
+    function renderDiaryTitlesList() {
+        diaryTitlesList.innerHTML = ''; // 一覧をクリア
+
+        // 日付を降順（新しい順）にソート
+        const sortedDates = Object.keys(diaries).sort((a, b) => new Date(b) - new Date(a));
+
+        if (sortedDates.length === 0) {
+            diaryTitlesList.innerHTML = '<p class="no-diary-message">まだ日記はありません。</p>';
+            return;
+        }
+
+        sortedDates.forEach(date => {
+            const diary = diaries[date];
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = "#"; // リンクなので#を指定
+            link.dataset.date = date; // 日付をデータ属性に保存
+            link.textContent = `${date} - ${diary.title}`;
+
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                displaySingleDiary(date); // メインコンテンツに表示
+                showSection('single-diary-view'); // 日記詳細セクションを表示
+            });
+            listItem.appendChild(link);
+            diaryTitlesList.appendChild(listItem);
+        });
+    }
+
+    // メインコンテンツに単一の日記を表示する関数
+    function displaySingleDiary(date) {
+        if (diaries[date]) {
+            const diary = diaries[date];
+            singleDiaryTitle.textContent = diary.title;
+            singleDiaryDate.textContent = date;
+            singleDiaryContent.textContent = diary.content;
+        } else {
+            singleDiaryTitle.textContent = '日記が見つかりません';
+            singleDiaryDate.textContent = '';
+            singleDiaryContent.textContent = '';
+        }
+    }
+
+    // 「トップに戻る」ボタンのイベントリスナー
+    backToTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSection('about'); // 自己紹介セクションに戻る
+    });
+
+
+    // 初期表示処理
+    renderCalendar(currentMonth, currentYear); // カレンダー初期表示
+    highlightTodayInCalendar(); // 今日の日付をハイライト
+
+    // ページロード時に今日の日記をサイドバーのカレンダー下に表示（もしあれば）
+    displayDiaryInCalendarSidebar(todayFormatted);
+
+    renderDiaryTitlesList(); // 日記タイトル一覧の初期表示
 });
